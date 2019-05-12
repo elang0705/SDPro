@@ -37,7 +37,7 @@
 
 <body>
 	<h1>${flag}</h1>
-	<a href="init"><span id="jumpTo">5</span>秒后系统会自动跳转，也可点击本处直接跳</a>
+	<a href="init"><span id="jumpTo">5</span>王国良秒后系统会自动跳转，也可点击本处直接跳</a>
 	<script type="text/javascript">
 		countDown(3, 'init');
 	</script>
