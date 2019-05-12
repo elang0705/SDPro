@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sd.dao.UploadMapper">
+	<insert id="insertAttachment" parameterType="com.sd.model.Attachment">
+		INSERT INTO
+		tb_attachment(id,fid,type,fileName,filePath,createTime,creator)
+		VALUES(#{id},#{fid},#{type},#{fileName},#{filePath},#{createTime},#{creator})
+	</insert>
+	<select id="findFile" parameterType="Map"  resultType="com.sd.model.Attachment">
+		SELECT  t1.filePath,t1.fileName FROM tb_attachment t1,tb_requireinfo t2 WHERE t1.fid = t2.rid AND t2.rid = #{rid} AND t1.type = #{type}
+	</select>
+</mapper>

@@ -1,0 +1,34 @@
+/*!
+ * 配置require
+ * 作者：wangguoliang
+ */
+require.config({
+	baseUrl:"scripts/thirds",
+	paths:{
+		jquery:"jquery/jquery-3.1.0.min",
+		'bootstrap.min':"bootstrap/js/bootstrap.min",
+		bootstrap:"bootstrap/js/bootstrap",
+		validate:"jquery/jquery.validate",
+		'bootstrap-fileinput':"bootstrap-fileinput-master/js/fileinput",
+		'bootstrap-fileinput.min':"bootstrap-fileinput-master/js/fileinput.min",
+		'bootstrap-fileinput.zh':"bootstrap-fileinput-master/js/fileinput_locale_zh.js",
+		'bootstrap-newsbox':"bootstrap/js/jquery.bootstrap.newsbox.min",
+		'bootstrap-datetimepicker':"bootstrap/js/bootstrap-datetimepicker",
+		'bootstrap-datetimepicker.min':"bootstrap/js/bootstrap-datetimepicker.min",
+		 dataTables:"dataTables/js/jquery.dataTables",
+		'dataTables-bootstrap':"dataTables/js/dataTables.bootstrap",
+		 app:"../app"
+	},
+	shim:{
+		'validate':['jquery'],
+	    'bootstrap':['jquery'],
+	    'bootstrap.min':['jquery'],
+	    'bootstrap-fileinput':['jquery'],
+	    'bootstrap-fileinput.min':['jquery'],
+	    'bootstrap-fileinput.zh':['jquery'],
+	    'bootstrap-newsbox':['jquery'],
+	    'bootstrap-datetimepicker':['jquery'],
+	    'bootstrap-datetimepicker.min':['jquery'],
+	    'dataTables-bootstrap':['dataTables']
+	}
+});

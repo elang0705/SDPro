@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sd.dao.DemandMapper">	
+	 <!-- 插入需求数据 -->
+	<insert id="insertDemand" useGeneratedKeys="true" keyProperty="rid" parameterType="com.sd.model.RequireInfo">
+		INSERT INTO tb_requireinfo(rid,category,deal,`describe`,endTime,expectTime,filePath,mobile,price,state,title,categoryChild,creDate,userId) 
+		VALUES(#{rid},#{category},#{deal},#{describe},#{endTime},#{expectTime},#{filePath},#{mobile},#{price},#{state},#{title},#{categoryChild},#{creDate},#{userId})
+
+	</insert>	
+    <!-- 插入竞标需求数据 -->
+	<insert id="insertAcceptDemand" parameterType="com.sd.model.AcceptRequireInfo">
+		INSERT INTO tb_aceptrequire(aid,offerPrice,period,promise,address,progress,risk,isReach,uid,rid) 
+		VALUES(#{aid},#{offerPrice},#{period},#{promise},#{address},#{progress},#{risk},#{isReach},#{uid},#{rid})
+
+	</insert>	
+	
+	<!-- 查询热门需求 -->
+	<select id="findRotDemand"  resultType="com.sd.model.RequireInfo">
+		SELECT COUNT(t2.rid) as c,t1.rid,t1.title,t1.price,t1.creDate,t1.isUploadPact,t1.isUploadWorks,t1.isSure FROM tb_requireinfo t1,tb_aceptrequire t2 WHERE t1.rid = t2.rid GROUP BY t2.rid ORDER BY c DESC LIMIT 10
+	</select>
+	<!-- 查询最新需求 -->
+	<select id="findNewDemand"  resultType="com.sd.model.RequireInfo">
+		SELECT rid,title,price,creDate,isUploadPact,isUploadWorks,isSure FROM tb_requireinfo ORDER BY creDate DESC LIMIT 10
+	</select>
+	<!-- 查询我发布的需求 -->
+	<select id="findPublishDemandByUserId" parameterType="Map" resultType="com.sd.model.RequireInfo">
+		SELECT  rid,title,price,state,creDate,userId,'' as todo,isUploadPact,isUploadWorks,isSure  FROM  tb_requireinfo  WHERE  userId = #{userId} ORDER BY creDate DESC	 LIMIT #{start},#{length}
+	</select>
+	<!-- 查询我发布的需求总数 -->
+	<select id="findPublishDemandByUserIdTotal" parameterType="Map" resultType="Integer">
+		SELECT  COUNT(rid) FROM  tb_requireinfo  WHERE  userId = #{userId} ORDER BY creDate DESC	 LIMIT #{start},#{length}
+	</select>
+	<!-- 查询我参与竞标的需求 -->
+	<select id="findBidDemandByUserId" parameterType="Map" resultType="com.sd.model.RequireInfo">
+		SELECT  t1.rid,t1.title,t1.price,t1.state,t1.creDate,t1.userId,'' as todo,t1.isUploadPact,t1.isUploadWorks,t1.isSure  FROM tb_requireinfo t1 LEFT JOIN tb_aceptrequire t2 ON t1.rid = t2.rid WHERE t2.uid = #{userId}  LIMIT #{start},#{length}
+	</select>
+	<!-- 查询我参与竞标的需求总数 -->
+	<select id="findBidDemandByUserIdTotal" parameterType="Map" resultType="Integer">
+		SELECT COUNT(t1.rid)  FROM tb_requireinfo t1 LEFT JOIN tb_aceptrequire t2 ON t1.rid = t2.rid WHERE t2.uid = #{userId}  LIMIT #{start},#{length}
+	</select>
+	<!-- 查询竞标的人 -->
+	<select id="findUserByRid" parameterType="int" resultType="Map">
+		SELECT  t3.rid,t3.title,t1.pid,t1.realName,t1.phone,t2.aid,t2.offerPrice,t2.period,t2.promise,'' as todo FROM tb_personinfo t1,tb_aceptrequire t2,tb_requireinfo t3 WHERE t1.pid = t2.uid AND t2.rid = t3.rid AND t3.state='1' AND t3.rid = #{rid} LIMIT #{start},#{length}
+	
+	</select>
+	<!-- 查询竞标的人总数 -->
+	<select id="findUserByRidTotal" parameterType="int" resultType="int">
+		SELECT  COUNT(t2.aid) FROM tb_personinfo t1,tb_aceptrequire t2,tb_requireinfo t3 WHERE t1.pid = t2.uid AND t2.rid = t3.rid AND t3.state='1' AND t3.rid = #{rid}
+	
+	</select>
+	<!-- 查询单个需求详细 -->
+	<select id="findDemandById" parameterType="int" resultType="com.sd.model.RequireInfo">
+		SELECT * FROM tb_requireinfo WHERE rid = #{rid}
+	</select>
+	<!-- 修改需求状态 -->
+	<update id="updateDemandState" parameterType="Map">
+		UPDATE tb_requireinfo SET state = #{state},isSure = #{isSure},isUploadWorks = #{isUploadWorks},isUploadPact = #{isUploadPact}  WHERE  rid = #{rid}
+	</update>	
+		<!-- 修改需求表为已签 -->
+	<update id="updateAcceptDemandState" parameterType="Map">
+		UPDATE tb_aceptrequire SET isReach = '1' WHERE  aid = #{aid}
+	</update>
+		<!--根据上传文件修改需求附件状态 -->
+	<update id="updateDemandByUpload" parameterType="Map">
+		UPDATE tb_requireinfo SET state = #{state},isUploadPact = #{isUploadPact},isUploadWorks=#{isUploadWorks} WHERE rid = #{rid};
+	</update>
+	
+	<!-- 根据状态查询所有需求 -->
+	<select id="findAllDemandByState" parameterType="Map" resultType="com.sd.model.RequireInfo">
+		SELECT rid,title,price,state,creDate,userId,'' as todo,isUploadPact,isUploadWorks,isSure FROM tb_requireinfo WHERE state = #{state} ORDER BY creDate LIMIT #{start},#{length}
+	</select>
+	<!-- 根据状态查询需求总数 -->
+	<select id="findByStateTotal" parameterType="Map" resultType="Integer">
+		SELECT COUNT(rid) FROM tb_requireinfo WHERE state = #{state} ORDER BY creDate LIMIT #{start},#{length}
+	</select>
+	<!-- 根据需求rid和自己userId查询是否报名过此rid的需求 -->
+	<select id="isAcceptedDemand" parameterType="Map" resultType="Integer">
+		SELECT COUNT(aid) FROM tb_aceptrequire WHERE rid=#{rid} AND uid=#{uid}
+	</select>
+	
+</mapper>

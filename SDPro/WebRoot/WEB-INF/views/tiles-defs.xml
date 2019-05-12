@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE tiles-definitions PUBLIC  
+      "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+      "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+<tiles-definitions>
+ <definition name="template01" template="/WEB-INF/views/layout/template01.jsp">  
+   <put-attribute name="title" value="Tiles tutorial homepage" />  
+   <put-attribute name="top" value="/WEB-INF/views/layout/header.jsp" /> 
+   <put-attribute name="leftNav" value="" />
+   <put-attribute name="content" value="" />
+   <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+ </definition>  
+ <definition name="index" extends="template01">  
+   <put-attribute name="title" value="" />     
+   <put-attribute name="content" value="/WEB-INF/views/index.jsp" />  
+ </definition>
+ <definition name="login" extends="template01">  
+   <put-attribute name="title" value="" />     
+   <put-attribute name="content" value="/WEB-INF/views/userManager/login.jsp" />  
+ </definition>
+ <definition name="register" extends="template01">  
+   <put-attribute name="title" value="" />     
+   <put-attribute name="content" value="/WEB-INF/views/userManager/register.jsp" />  
+ </definition>
+<!--  <definition name="logout" extends="template01">  
+   <put-attribute name="title" value="" />     
+   <put-attribute name="content" value="/WEB-INF/views/userManager/logout.jsp" />  
+ </definition> -->
+  <definition name="personInfo" extends="template01">  
+   <put-attribute name="title" value="" />     
+   <put-attribute name="content" value="/WEB-INF/views/userManager/editPersonInfo.jsp" />  
+ </definition>
+ <definition name="userInfo" extends="template01">  
+   <put-attribute name="title" value="" />     
+   <put-attribute name="content" value="/WEB-INF/views/userManager/userInfo.jsp" />  
+ </definition>
+  <definition name="publish" extends="template01">  
+   <put-attribute name="title" value="" />     
+   <put-attribute name="content" value="/WEB-INF/views/demand/publish.jsp" />  
+ </definition>
+ <definition name="requireInfo" extends="template01">  
+   <put-attribute name="title" value="" />     
+   <put-attribute name="content" value="/WEB-INF/views/demand/requirInfo.jsp" />  
+ </definition>
+ <definition name="welcome" extends="template01">  
+   <put-attribute name="title" value="" />     
+   <put-attribute name="content" value="/WEB-INF/views/welcome.jsp" />  
+ </definition>
+ <definition name="accept" extends="template01">  
+   <put-attribute name="title" value="" />     
+   <put-attribute name="content" value="/WEB-INF/views/demand/accept.jsp" />  
+ </definition>
+  
+ 
+</tiles-definitions>
